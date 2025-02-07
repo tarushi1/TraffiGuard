@@ -1,4 +1,4 @@
-from fastapi import FastAPI, WebSocket, Query
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Query
 from typing import List
 from sqlalchemy import create_engine, Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
@@ -36,51 +36,40 @@ def is_nearby(lat1, lon1, lat2, lon2, max_distance=2.0):
     distance = R * c  # Distance in km
     return distance <= max_distance
 
-# 1️⃣ Report an Accident (POST)
-@app.post("/report-accident")
-def report_accident(latitude: float, longitude: float, description: str):
-    db = SessionLocal()
-    new_accident = Accident(latitude=latitude, longitude=longitude, description=description)
-    db.add(new_accident)
-    db.commit()
-    db.refresh(new_accident)
-
-    # Notify nearby vehicles
-    for connection in active_connections:
-        if is_nearby(latitude, longitude, connection["lat"], connection["lon"]):
-            connection["ws"].send_json({
-                "alert": f"🚨 {description} near your location!",
-                "latitude": latitude,
-                "longitude": longitude
-            })
-    
-    return {"message": "Accident reported successfully", "id": new_accident.id}
-
-# 2️⃣ Get Nearby Alerts (GET)
-@app.get("/get-alerts")
-def get_alerts(lat: float, lon: float, max_distance: float = 2.0):
-    db = SessionLocal()
-    all_accidents = db.query(Accident).all()
-    nearby_accidents = [
-        {
-            "id": acc.id,
-            "latitude": acc.latitude,
-            "longitude": acc.longitude,
-            "description": acc.description
-        }
-        for acc in all_accidents if is_nearby(lat, lon, acc.latitude, acc.longitude, max_distance)
-    ]
-    return {"alerts": nearby_accidents}
-
-# 3️⃣ WebSocket for Real-Time Alerts
+# 1️⃣ WebSocket for Reporting & Receiving Accidents
 @app.websocket("/ws/alerts")
-async def alert_websocket(websocket: WebSocket, lat: float = Query(...), lon: float = Query(...)):
+async def accident_websocket(websocket: WebSocket, lat: float = Query(...), lon: float = Query(...)):
     await websocket.accept()
     connection = {"ws": websocket, "lat": lat, "lon": lon}
     active_connections.append(connection)
 
     try:
         while True:
-            await websocket.receive_text()  # Keep connection open
-    except:
+            data = await websocket.receive_json()  # Receive JSON data from client
+            if "report_accident" in data:
+                accident_data = data["report_accident"]
+                latitude = accident_data["latitude"]
+                longitude = accident_data["longitude"]
+                description = accident_data["description"]
+
+                # Save accident to database
+                db = SessionLocal()
+                new_accident = Accident(latitude=latitude, longitude=longitude, description=description)
+                db.add(new_accident)
+                db.commit()
+                db.refresh(new_accident)
+
+                # Notify nearby vehicles
+                for conn in active_connections:
+                    if is_nearby(latitude, longitude, conn["lat"], conn["lon"]):
+                        await conn["ws"].send_json({
+                            "alert": f"🚨 {description} near your location!",
+                            "latitude": latitude,
+                            "longitude": longitude
+                        })
+
+                # Acknowledge accident report
+                await websocket.send_json({"message": "Accident reported successfully", "id": new_accident.id})
+
+    except WebSocketDisconnect:
         active_connections.remove(connection)
