@@ -11,7 +11,17 @@ import bcrypt
 
 app = FastAPI()
 
-# 🚀 Database Configuration
+oauth = OAuth()
+oauth.register(
+    name="google",
+    client_id="your_google_client_id",
+    client_secret="your_google_client_secret",
+    authorize_url="https://accounts.google.com/o/oauth2/auth",
+    access_token_url="https://oauth2.googleapis.com/token",
+    client_kwargs={"scope": "openid email profile"},
+)
+app.add_middleware(SessionMiddleware, secret_key="your_secret_key")
+
 DATABASE_URL = "sqlite:///./traffiguard.db"
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -28,14 +38,14 @@ class EmergencyRequest(Base):
     __tablename__ = "requests"
     id = Column(Integer, primary_key=True, index=True)
     vehicle_type = Column(String, index=True)
-    route = Column(String)  # Updated column
+    route = Column(String)  
     eta = Column(Float)
     status = Column(String, default="Pending")
 
-# 🚀 Create tables if they don’t exist
+
 Base.metadata.create_all(bind=engine)
 
-# 🚀 Dependency to get DB Session
+
 def get_db():
     db = SessionLocal()
     try:
@@ -43,7 +53,6 @@ def get_db():
     finally:
         db.close()
 
-# 🚀 Pydantic Models for Request Validation
 class LoginRequest(BaseModel):
     username: str
     password: str
@@ -57,9 +66,7 @@ class UpdateRequestStatus(BaseModel):
     request_id: int
     status: str
 
-# 🚀 API Endpoints
 
-## User Login
 @app.post("/signup")
 def signup(username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     hashed_password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
@@ -77,7 +84,7 @@ async def auth(request: Request, db: Session = Depends(get_db)):
     token = await oauth.google.authorize_access_token(request)
     user_info = await oauth.google.parse_id_token(request, token)
 
-    # Check if user exists in DB, if not, create a new user
+    
     user = db.query(User).filter(User.username == user_info["email"]).first()
     if not user:
         user = User(username=user_info["email"], password_hash="google_auth")
@@ -88,7 +95,7 @@ async def auth(request: Request, db: Session = Depends(get_db)):
     return {"access_token": jwt_token, "token_type": "bearer", "user": user_info}
 
 
-## Request Priority Vehicle Passage
+
 @app.post("/request-priority")
 def request_priority(request: PriorityRequest, db: Session = Depends(get_db)):
     new_request = EmergencyRequest(**request.dict())
@@ -97,13 +104,13 @@ def request_priority(request: PriorityRequest, db: Session = Depends(get_db)):
     db.refresh(new_request)
     return {"message": "Priority request submitted successfully", "id": new_request.id}
 
-## Get All Requests
+
 @app.get("/get-requests")
 def get_requests(db: Session = Depends(get_db)):
     requests = db.query(EmergencyRequest).all()
     return {"requests": requests}
 
-## Update Request Status
+
 @app.put("/update-request-status")
 def update_request_status(update: UpdateRequestStatus, db: Session = Depends(get_db)):
     request_entry = db.query(EmergencyRequest).filter(EmergencyRequest.id == update.request_id).first()
@@ -114,23 +121,22 @@ def update_request_status(update: UpdateRequestStatus, db: Session = Depends(get
     db.commit()
     return {"message": "Request status updated successfully"}
 
-## Root Endpoint
+
 @app.get("/")
 def read_root():
     return {"message": "Welcome to TraffiGuard!"}
 
-# 🚀 CORS Configuration
+
 from fastapi.middleware.cors import CORSMiddleware
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins (modify in production)
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
-    allow_headers=["*"],  # Allow all headers
+    allow_methods=["*"],  
+    allow_headers=["*"],  
 )
 
-# 🚀 Run FastAPI App
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, port=8000)
