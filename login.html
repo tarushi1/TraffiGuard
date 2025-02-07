@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Emergency System</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #fff;
+        }
+
+        .container {
+            display: flex;
+            width: 800px;
+            height: 400px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .left-section {
+            width: 40%;
+            background: linear-gradient(to bottom, #d60000, #ff3333);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-section img {
+            width: 120px;
+        }
+
+        .right-section {
+            width: 60%;
+            background: #f4f4f4;
+            padding: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            font-weight: 600;
+        }
+
+        .or-text {
+            margin: 10px 0;
+            font-weight: 400;
+            color: #555;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            background: #d60000;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #b80000;
+        }
+
+        .login-text {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .login-text a {
+            color: #d60000;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="left-section">
+            <img src="https://pin.it/1xpI5q0Rq" alt="Emergency Icon">
+        </div>
+
+        <div class="right-section">
+            <h2>Sign up</h2>
+            <p class="or-text">OR</p>
+            
+            <form id="signupForm">
+                <input type="text" id="fullName" placeholder="Full name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn">Create Account</button>
+            </form>
+
+            <p class="login-text">Already have an account? <a id="loginRedirect">Log in</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let fullName = document.getElementById('fullName').value.trim();
+            let email = document.getElementById('email').value.trim();
+            let password = document.getElementById('password').value.trim();
+
+            if (fullName === "" || email === "" || password === "") {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            if (!email.includes("@")) {
+                alert("Please enter a valid email.");
+                return;
+            }
+
+            // Store user credentials (only for demo purposes, NOT secure for real applications)
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPassword", password);
+
+            alert("Account created successfully!");
+        });
+
+        document.getElementById('loginRedirect').addEventListener('click', function() {
+            window.location.href = "login.html"; // Redirect to Login Page
+        });
+    </script>
+
+</body>
+</html>
