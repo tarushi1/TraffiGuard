@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alert Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bell-icon">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+        </svg>
+        <h1>Alert Dashboard</h1>
+      </div>
+      <div class="alert-counter">
+        <span>Active Alerts:</span>
+        <span id="alertCount">0</span>
+      </div>
+    </header>
 
+    <main>
+      <div class="alerts-section">
+        <h2>Recent Alerts</h2>
+        <div id="alertsList" class="alerts-list"></div>
+      </div>
+
+      <div class="map-section">
+        <h2>Alert Locations</h2>
+        <div id="map" class="map">
+          <div class="map-background"></div>
+          <div id="markers" class="markers"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
