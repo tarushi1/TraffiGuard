@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TraffiGuard Login</title>
+    <title>TraffiGuard Signup</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -19,129 +19,116 @@
         }
         .left-section {
             width: 60%;
+            position: relative;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             color: white;
             text-align: center;
-            position: relative;
-            background-color: #FF4949;
+            background-color: black;
+        }
+        .left-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1; /* Ensures the image is behind the text */
         }
         .overlay {
+            position: absolute;
+            z-index: 2; /* Ensures text appears over the image */
+            text-align: center;
             padding: 20px;
-            border-radius: 10px ;
-            position: relative;
-            top: 150px;
-            right: 100px;
-        }   
-        .highlight {
-            color: red;
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 70px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            margin: 0;
+        }
+        .tagline {
+            font-size: 24px;
+            font-style: italic;
+        }
+        .description {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 20px;
+            margin-top: 20px;
         }
         .right-section {
             width: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 20px;
         }
         .login-box {
             width: 300px;
-            text-align: center; 
+            text-align: center;
         }
-        input {
+        input, button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
         }
         button {
-            width: 100%;
-            padding: 10px;
-            margin: 15px;
             background-color: darkred;
             color: white;
             border: none;
             cursor: pointer;
         }
-        .options {
-            display: flex;
-            justify-content: space-between;
-        }
         .signup {
             margin-top: 10px;
         }
-        h1{
-            font-size: 70px;
-            padding: 20px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-        }
-        .tagline{
-            position:absolute;
-            top: 160px;
-            right: 40px;
-        }
-        .description{
-            position: relative;
-            top: 180px;
-            left: 170px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 10px;
-            width: 50%;
-            height: 100px;
-            font-size: 20px;
-        }
-        #intelligentsys{
-            border: 1px solid black;
-            border-radius: 20%;
-        }
-        h2{
+        h2 {
             display: block; 
             text-align: center;
             margin-bottom: 50px;
             font-size: 30px;
         }
-        
     </style>
 </head>
 <body>
     <div class="container">
         <div class="left-section">
+            <img src="c:\Users\yashv\Downloads\Smart City Traffic Control System _ Case Study _ WeblineIndia.jpeg" alt="Traffic System">
             <div class="overlay">
                 <h1>TraffiGuard</h1>
-                <p class="tagline"><i>Intelligent Control, Safer Journeys</i></p>
-            </div>
+                <p class="tagline">Intelligent Control, Safer Journeys</p>
                 <p class="description">An intelligent system that enhances road safety, reduces congestion, and ensures swift emergency response.</p>
+            </div>
         </div>
         <div class="right-section">
             <div class="login-box">
                 <h2>Sign up</h2>
-                <form id="login-form">
+                <form id="signup-form">
                     <label for="name">Enter name</label>
                     <input type="text" id="name" placeholder="Name" required>
-                    <label for="email">Enter email</ label>
+                    <label for="email">Enter email</label>
                     <input type="text" id="email" placeholder="Email or phone number" required>
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Enter password" required>
-                    <div class="options">
-                    </div>
-                    <button type="submit" id="submitbutton">Sign in</button>
+                    <button type="submit">Sign up</button>
                 </form>
-                <p class="signup">Don’t have an account? <a href="#">Sign up now</a></p>
+                <p class="signup">Already have an account? <a href="#">Sign in now</a></p>
             </div>
         </div>
     </div>
     <script>
-        document.getElementById("login-form").addEventListener("submit", function(event) {
+        document.getElementById("signup-form").addEventListener("submit", function(event) {
             event.preventDefault();
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-            if (email === "admin@example.com" && password === "password123") {
-                alert("Login successful!");
+            if (email && password) {
+                alert("Signup successful!");
             } else {
-                alert("Invalid credentials, please try again.");
+                alert("Please fill in all fields.");
             }
         });
     </script>
 </body>
 </html>
-
