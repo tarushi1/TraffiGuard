@@ -1,4 +1,4 @@
-# TrafficGuard/n
+# TrafficGuard
 TraffiGuard is a smart, web-based system designed to dynamically manage traffic signals and optimize routes for emergency vehicles.<br>
 Key Features<br>
 1.Emergency Vehicle Request System: Authorities request priority access for ambulances, fire trucks, and police vehicles.<br>
