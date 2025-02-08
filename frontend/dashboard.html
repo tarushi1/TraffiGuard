@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Vehicles</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      height: 100vh;
+    }
+
+    .left-container {
+      width: 40%;
+      background-color: red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .right-container {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      border-radius: 8px;
+      margin: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header {
+      background-color: #444;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+    }
+
+    header .menu-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    header .header-icons {
+      display: flex;
+      gap: 20px;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .map-placeholder {
+      height: 200px;
+      background-color: #666;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f4f4f4;
+    }
+
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+  </style>
+</head>
+<body>
+  <div class="left-container">
+    Red Container
+  </div>
+  <div class="right-container">
+    <header>
+      <div class="menu-icon">☰</div>
+      <h1>Emergency Vehicles</h1>
+      <div class="header-icons">
+        <span>🔔</span>
+        <span>Log out</span>
+      </div>
+    </header>
+    <main>
+      <div class="map-placeholder">MAP</div>
+      <div class="table-section">
+        <table>
+          <thead>
+            <tr>
+              <th>Vehicle Type</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Last Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ambulance</td>
+              <td>NY</td>
+              <td>En Route</td>
+              <td>2 mins ago</td>
+            </tr>
+            <tr>
+              <td>Police</td>
+              <td>DEI</td>
+              <td>Active</td>
+              <td>1 min ago</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
