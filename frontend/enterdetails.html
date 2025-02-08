@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Response</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Section -->
+        <div class="left-section">
+            <nav class="navbar">
+                <i class="fas fa-bars"></i>
+                <div class="nav-links">
+                    <a href="#">Emergency</a>
+                    <a href="#">Analysis</a>
+                </div>
+                <div class="nav-icons">
+                    <i class="fas fa-bell"></i>
+                    <i class="fas fa-sign-out-alt"></i> <span>Log out</span>
+                </div>
+            </nav>
+
+            <!-- Emergency Info Panel -->
+            <div class="emergency-info">
+                <div class="status-box active">
+                    <p>Active emergencies</p>
+                    <span>3 <i class="fas fa-ambulance"></i></span>
+                </div>
+                <div class="status-box pending">
+                    <p>Pending response</p>
+                    <span>2 <i class="fas fa-exclamation-triangle"></i></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section (Form) -->
+        <div class="right-section">
+            <div class="form-container">
+                <h2>Enter emergency details</h2>
+                <form id="emergency-form">
+                    <label for="vehicle">Vehicle</label>
+                    <input type="text" id="vehicle" placeholder="Enter vehicle type" required>
+
+                    <label for="location">Location</label>
+                    <input type="text" id="location" placeholder="Enter location" required>
+
+                    <label for="priority">Priority type</label>
+                    <input type="text" id="priority" placeholder="Enter priority" required>
+
+                    <button type="submit">Submit Emergency</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
